@@ -1,266 +1,191 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每日氧氣用量記錄</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .input-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .input-group > * {
-            flex-grow: 1;
-            min-width: 120px;
-        }
-        @media (max-width: 768px) {
-            .input-group > * {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body class="bg-gray-100 p-4 md:p-6">
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800">每日氧氣用量記錄</h1>
+<!DOCTYPE html>  
+<html lang="zh-Hant">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>每日氧氣用量記錄</title>  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+        }  
+        .input-group {  
+            display: flex;  
+            flex-wrap: wrap;  
+            gap: 0.5rem;  
+            margin-bottom: 1rem;  
+        }  
+        .input-group > * {  
+            flex-grow: 1;  
+            min-width: 120px;  
+        }  
+        @media (max-width: 768px) {  
+            .input-group > * {  
+                width: 100%;  
+            }  
+        }  
+    </style>  
+</head>  
+<body class="bg-gray-100 p-4 md:p-6">  
+    <div class="max-w-6xl mx-auto">  
+        <h1 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800">每日氧氣用量記錄</h1>  
         
-        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-            <div class="input-group">
-                <input type="text" id="userName" placeholder="用戶姓名" 
-                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="number" id="oxygenAmount" placeholder="氧氣用量" 
-                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <select id="month" class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">選擇月份</option>
-                    <option value="1">1月</option>
-                    <option value="2">2月</option>
-                    <option value="3">3月</option>
-                    <option value="4">4月</option>
-                    <option value="5">5月</option>
-                    <option value="6">6月</option>
-                    <option value="7">7月</option>
-                    <option value="8">8月</option>
-                    <option value="9">9月</option>
-                    <option value="10">10月</option>
-                    <option value="11">11月</option>
-                    <option value="12">12月</option>
-                </select>
-                <input type="number" id="day" placeholder="日期" min="1" max="31"
-                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="number" id="floor" placeholder="樓層" min="1"
-                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="addRecord()" 
-                    class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors">
-                    新增紀錄
-                </button>
-            </div>
-        </div>
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">  
+            <div class="input-group">  
+                <input type="text" id="userName" placeholder="用戶姓名"   
+                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">  
+                <input type="number" id="oxygenAmount" placeholder="氧氣用量"   
+                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">  
+                <select id="month" class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">  
+                    <option value="">選擇月份</option>  
+                    <option value="1">1月</option>  
+                    <option value="2">2月</option>  
+                    <option value="3">3月</option>  
+                    <option value="4">4月</option>  
+                    <option value="5">5月</option>  
+                    <option value="6">6月</option>  
+                    <option value="7">7月</option>  
+                    <option value="8">8月</option>  
+                    <option value="9">9月</option>  
+                    <option value="10">10月</option>  
+                    <option value="11">11月</option>  
+                    <option value="12">12月</option>  
+                </select>  
+                <input type="number" id="day" placeholder="日期" min="1" max="31"  
+                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">  
+                <input type="number" id="floor" placeholder="樓層" min="1"  
+                    class="border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">  
+                <button onclick="addRecord()"   
+                    class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors">  
+                    新增紀錄  
+                </button>  
+            </div>  
+        </div>  
 
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-            <div class="overflow-x-auto">
-                <table class="min-w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">用戶姓名</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">氧氣用量</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">日期</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">樓層</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recordTable" class="divide-y divide-gray-200">
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">  
+            <div class="overflow-x-auto">  
+                <table class="min-w-full">  
+                    <thead class="bg-gray-50">  
+                        <tr>  
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">用戶姓名</th>  
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">氧氣用量</th>  
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">日期</th>  
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">樓層</th>  
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">操作</th>  
+                        </tr>  
+                    </thead>  
+                    <tbody id="recordTable" class="divide-y divide-gray-200">  
+                    </tbody>  
+                </table>  
+            </div>  
+        </div>  
 
-        <div class="grid md:grid-cols-2 gap-6 mb-6">
-            <div class="bg-white rounded-lg shadow-md p-4">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">每月總氧氣用量</h2>
-                <ul id="monthlyTotals" class="space-y-2 text-gray-600">
-                </ul>
-            </div>
+        <div class="grid md:grid-cols-2 gap-6 mb-6">  
+            <div class="bg-white rounded-lg shadow-md p-4">  
+                <h2 class="text-xl font-bold mb-3 text-gray-800">每月總氧氣用量</h2>  
+                <ul id="monthlyTotals" class="space-y-2 text-gray-600">  
+                </ul>  
+            </div>  
 
-            <div class="bg-white rounded-lg shadow-md p-4">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">每人總氧氣用量</h2>
-                <ul id="individualTotals" class="space-y-2 text-gray-600">
-                </ul>
-            </div>
-        </div>
+            <div class="bg-white rounded-lg shadow-md p-4">  
+                <h2 class="text-xl font-bold mb-3 text-gray-800">每人總氧氣用量</h2>  
+                <ul id="individualTotals" class="space-y-2 text-gray-600">  
+                </ul>  
+            </div>  
+        </div>  
 
-        <button onclick="exportRecords()" 
-            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
-            匯出紀錄
-        </button>
-    </div>
+        <button onclick="exportRecords()"   
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">  
+            匯出紀錄  
+        </button>  
+    </div>  
 
-    <script>
-        const monthlyUsage = {};
-        const individualUsage = {};
-        const records = [];
+    <script>  
+        const apiUrl = 'http://localhost:3000/api/records'; // 更新為你的後端 API URL  
+        const monthlyUsage = {};  
+        const individualUsage = {};  
+        const records = [];  
 
-        function addRecord() {
-            const userName = document.getElementById('userName').value.trim();
-            const oxygenAmount = parseFloat(document.getElementById('oxygenAmount').value);
-            const month = document.getElementById('month').value;
-            const day = document.getElementById('day').value;
-            const floor = document.getElementById('floor').value;
+        async function addRecord() {  
+            const userName = document.getElementById('userName').value.trim();  
+            const oxygenAmount = parseFloat(document.getElementById('oxygenAmount').value);  
+            const month = document.getElementById('month').value;  
+            const day = document.getElementById('day').value;  
+            const floor = document.getElementById('floor').value;  
 
-            if (!userName || isNaN(oxygenAmount) || !month || !day || !floor) {
-                alert('請填寫所有欄位');
-                return;
-            }
+            if (!userName || isNaN(oxygenAmount) || !month || !day || !floor) {  
+                alert('請填寫所有欄位');  
+                return;  
+            }  
 
-            if (oxygenAmount <= 0) {
-                alert('氧氣用量必須大於0');
-                return;
-            }
+            const record = { userName, oxygenAmount, month, day, floor };  
 
-            if (day < 1 || day > 31) {
-                alert('請輸入有效的日期');
-                return;
-            }
+            // 發送 POST 請求到後端  
+            await fetch(apiUrl, {  
+                method: 'POST',  
+                headers: {  
+                    'Content-Type': 'application/json'  
+                },  
+                body: JSON.stringify(record)  
+            });  
 
-            if (floor < 1) {
-                alert('請輸入有效的樓層');
-                return;
-            }
+            fetchRecords(); // 重新加載紀錄  
+        }  
 
-            const record = { userName, oxygenAmount, month, day, floor };
-            records.push(record);
+        async function fetchRecords() {  
+            const response = await fetch(apiUrl);  
+            const records = await response.json();  
+            const table = document.getElementById('recordTable');  
+            table.innerHTML = ''; // 清空表格  
 
-            updateTable();
-            updateMonthlyUsage(month, oxygenAmount);
-            updateIndividualUsage(userName, oxygenAmount);
-            updateMonthlyTotals();
-            updateIndividualTotals();
-            clearForm();
-        }
+            records.forEach(record => {  
+                const row = document.createElement('tr');  
+                row.innerHTML = `  
+                    <td class="border px-4 py-2">${record.userName}</td>  
+                    <td class="border px-4 py-2">${record.oxygenAmount}</td>  
+                    <td class="border px-4 py-2">${record.month}月${record.day}日</td>  
+                    <td class="border px-4 py-2">${record.floor}樓</td>  
+                    <td class="border px-4 py-2">  
+                        <button onclick="deleteRecord('${record._id}')" class="bg-red-500 text-white p-1">刪除</button>  
+                    </td>  
+                `;  
+                table.appendChild(row);  
+            });  
+        }  
 
-        function updateTable() {
-            const table = document.getElementById('recordTable');
-            table.innerHTML = records.map((record, index) => `
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3">${record.userName}</td>
-                    <td class="px-4 py-3">${record.oxygenAmount}</td>
-                    <td class="px-4 py-3">${record.month}月${record.day}日</td>
-                    <td class="px-4 py-3">${record.floor}樓</td>
-                    <td class="px-4 py-3">
-                        <button onclick="deleteRecord(${index})" 
-                            class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors">
-                            刪除
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-        }
+        async function deleteRecord(id) {  
+            await fetch(`${apiUrl}/${id}`, {  
+                method: 'DELETE',  
+            });  
+            fetchRecords(); // 刪除後重新加載紀錄  
+        }  
 
-        function deleteRecord(index) {
-            const record = records[index];
-            updateMonthlyUsage(record.month, -record.oxygenAmount);
-            updateIndividualUsage(record.userName, -record.oxygenAmount);
-            records.splice(index, 1);
-            
-            updateTable();
-            updateMonthlyTotals();
-            updateIndividualTotals();
-        }
+        // 當頁面加載時獲取紀錄  
+        window.onload = fetchRecords;  
 
-        function updateMonthlyUsage(month, amount) {
-            monthlyUsage[month] = (monthlyUsage[month] || 0) + amount;
-            if (monthlyUsage[month] === 0) delete monthlyUsage[month];
-        }
+        function exportRecords() {  
+            if (records.length === 0) {  
+                alert('沒有可匯出的記錄');  
+                return;  
+            }  
 
-        function updateIndividualUsage(userName, amount) {
-            individualUsage[userName] = (individualUsage[userName] || 0) + amount;
-            if (individualUsage[userName] === 0) delete individualUsage[userName];
-        }
+            const csvContent = [  
+                "\uFEFF用戶姓名,氧氣用量,月份,日期,樓層",  
+                ...records.map(record =>   
+                    `${record.userName},${record.oxygenAmount},${record.month},${record.day},${record.floor}`  
+                )  
+            ].join('\n');  
 
-        function updateMonthlyTotals() {
-            const monthlyTotals = document.getElementById('monthlyTotals');
-            monthlyTotals.innerHTML = Object.entries(monthlyUsage)
-                .sort(([a], [b]) => a - b)
-                .map(([month, total]) => `
-                    <li class="flex justify-between">
-                        <span>${month}月</span>
-                        <span>${total.toFixed(1)} 單位</span>
-                    </li>
-                `).join('');
-        }
-
-        function updateIndividualTotals() {
-            const individualTotals = document.getElementById('individualTotals');
-            individualTotals.innerHTML = Object.entries(individualUsage)
-                .sort(([a], [b]) => individualUsage[b] - individualUsage[a])
-                .map(([userName, total]) => `
-                    <li class="flex justify-between">
-                        <span>${userName}</span>
-                        <span>${total.toFixed(1)} 單位</span>
-                    </li>
-                `).join('');
-        }
-
-        function clearForm() {
-            document.getElementById('userName').value = '';
-            document.getElementById('oxygenAmount').value = '';
-            document.getElementById('month').value = '';
-            document.getElementById('day').value = '';
-            document.getElementById('floor').value = '';
-        }
-
-        function exportRecords() {
-            if (records.length === 0) {
-                alert('沒有可匯出的記錄');
-                return;
-            }
-
-            const csvContent = [
-                "\uFEFF用戶姓名,氧氣用量,月份,日期,樓層",
-                ...records.map(record => 
-                    `${record.userName},${record.oxygenAmount},${record.month},${record.day},${record.floor}`
-                )
-            ].join('\n');
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `oxygen_usage_records_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        }
-    </script>
-<script>window.parent.postMessage({ action: "ready" }, "*"); 
- 
-window.console = new Proxy(console, {
-  get(target, prop) {
-    if (['log', 'warn', 'error'].includes(prop)) {
-      return new Proxy(target[prop], {
-        apply(fn, thisArg, args) {
-          fn.apply(thisArg, args);
-          window.parent.postMessage({ action: 'console', 
-            type: prop, 
-            args: args.map((arg) => {
-              try {
-                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
-              } catch (e) {
-                return arg;
-              }
-            }) 
-          }, '*');
-        }
-      });
-    }
-    return target[prop];
-  }
-});
-</script></body>
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });  
+            const url = URL.createObjectURL(blob);  
+            const link = document.createElement("a");  
+            link.setAttribute("href", url);  
+            link.setAttribute("download", `oxygen_usage_records_${new Date().toISOString().split('T')[0]}.csv`);  
+            document.body.appendChild(link);  
+            link.click();  
+            document.body.removeChild(link);  
+            URL.revokeObjectURL(url);  
+        }  
+    </script>  
+</body>  
 </html>
